@@ -148,11 +148,35 @@
     listBody.innerHTML = rows;
   }
 
+  function stripNegative(v) {
+    return v.replace(/-/g, '');
+  }
+
+  function limitInt(v) {
+    var dot = v.indexOf('.');
+    return dot === -1 ? v : v.slice(0, dot);
+  }
+
+  function limitDecimals(v) {
+    var dot = v.indexOf('.');
+    if (dot === -1) return v;
+    var intPart = v.slice(0, dot);
+    var decPart = v.slice(dot + 1).replace(/\./g, '');
+    if (decPart.length <= 2) return v;
+    return intPart + '.' + decPart.slice(0, 2);
+  }
+
   notesEl.addEventListener('input', function () {
+    var cleaned = limitInt(stripNegative(notesEl.value));
+    if (cleaned !== notesEl.value) notesEl.value = cleaned;
     renderResult();
     scheduleList();
   });
-  accEl.addEventListener('input', renderResult);
+  accEl.addEventListener('input', function () {
+    var cleaned = limitDecimals(stripNegative(accEl.value));
+    if (cleaned !== accEl.value) accEl.value = cleaned;
+    renderResult();
+  });
 
   clearResult();
 })();

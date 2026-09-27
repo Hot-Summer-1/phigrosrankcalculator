@@ -327,6 +327,28 @@ tbody td:first-child {
   font-weight: 600;
 }
 
+.footer {
+  text-align: center;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.footer a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.footer-icon {
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
 @media (max-width: 560px) {
   .container {
     padding: 36px 0 60px;
