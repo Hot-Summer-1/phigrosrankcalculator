@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phigros S 评级计算器</title>
+  <meta name="description" content="输入物量与 ACC，计算取得 Phigros S 评级所需的最小最大连击数。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B5%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main class="container">
+    <header class="hero">
+      <h1>Phigros <span class="accent">S</span> 评级计算器</h1>
+      <p class="subtitle">输入物量与 ACC，得到达成 S 评级所需的最小最大连击数</p>
+    </header>
+
+    <section class="card">
+      <div class="fields">
+        <div class="field">
+          <label for="notes">物量（Note 总数）</label>
+          <input id="notes" type="number" min="1" step="1" inputmode="numeric" placeholder="例如 1024" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="acc">ACC（%）</label>
+          <input id="acc" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="例如 97.35" autocomplete="off">
+        </div>
+      </div>
+
+      <div id="result" class="result">
+        <p class="hint">输入物量与 ACC 后自动计算</p>
+      </div>
+    </section>
+
+    <details class="card list-card">
+      <summary>
+        <span>参考表：各 ACC 所需最小连击</span>
+      </summary>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ACC</th>
+              <th>最小最大连击</th>
+              <th>连击占比</th>
+            </tr>
+          </thead>
+          <tbody id="list-body"></tbody>
+        </table>
+      </div>
+    </details>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
