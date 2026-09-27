@@ -72,7 +72,6 @@
 
   function unavailableBlock(grade, scoreLabel) {
     return '<div class="rating-block">' +
-      '<p class="result-label">达到 ' + grade + ' 评级（' + scoreLabel + '）</p>' +
       '<p class="result-unavailable">当前 ACC 不足，无法取得 ' + grade + ' 评级</p>' +
       '</div>';
   }
@@ -100,7 +99,7 @@
     }
     var units = Math.round(accVal * 100);
     if (units < S_UNITS_MIN) {
-      showError('该 ACC 无法取得 S 或 V 评级。');
+      showError('当前 ACC 不足，无法取得 S 或 V 评级。');
       return;
     }
 
