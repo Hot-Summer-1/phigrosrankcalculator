@@ -99,7 +99,7 @@
     }
     var units = Math.round(accVal * 100);
     if (units < S_UNITS_MIN) {
-      showError('当前 ACC 不足，无法取得 S 或 V 评级。');
+      showError('当前 ACC 不足，无法取得 S 或 V 评级');
       return;
     }
 
