@@ -123,13 +123,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-.hero .accent {
-  background: linear-gradient(120deg, var(--cyan), var(--magenta));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .subtitle {
   margin: 0;
   color: var(--muted);
@@ -211,11 +204,6 @@ input[type="number"] {
   color: var(--muted);
 }
 
-.result--ok {
-  background: var(--ok-bg);
-  border-color: var(--ok-border);
-}
-
 .result--error {
   background: var(--err-bg);
   border-color: var(--err-border);
@@ -238,10 +226,7 @@ input[type="number"] {
   margin: 0;
   font-size: clamp(2.4rem, 9vw, 3.6rem);
   font-weight: 800;
-  background: linear-gradient(120deg, var(--cyan), var(--magenta));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--text);
   line-height: 1.1;
 }
 
@@ -250,13 +235,24 @@ input[type="number"] {
   font-weight: 600;
   margin-left: 8px;
   color: var(--muted);
-  -webkit-text-fill-color: var(--muted);
 }
 
 .result-sub {
   margin: 8px 0 0;
   color: var(--text);
   opacity: 0.85;
+}
+
+.rating-block + .rating-block {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.result-unavailable {
+  margin: 6px 0 0;
+  font-weight: 700;
+  color: var(--err);
 }
 
 .list-card summary {
@@ -308,12 +304,14 @@ thead th {
   text-align: left;
   padding: 11px 14px;
   border-bottom: 1px solid var(--line);
+  white-space: nowrap;
 }
 
 tbody td {
   padding: 9px 14px;
   border-bottom: 1px solid var(--row-line);
   font-size: 0.94rem;
+  white-space: nowrap;
 }
 
 tbody tr:last-child td {

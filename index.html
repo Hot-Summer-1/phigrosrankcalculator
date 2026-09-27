@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phigros S 评级计算器</title>
-  <meta name="description" content="输入物量与 ACC，计算取得 Phigros S 评级所需的最小最大连击数。">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B5%3C/text%3E%3C/svg%3E">
+  <title>Phigros S / V 评级计算器</title>
+  <meta name="description" content="输入物量与 ACC，计算取得 Phigros S / V 评级所需的最小最大连击数。">
+  <link rel="icon" href="icon.jpg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
 
   <main class="container">
     <header class="hero">
-      <h1>Phigros <span class="accent">S</span> 评级计算器</h1>
-      <p class="subtitle">输入物量与 ACC，得到达成 S 评级所需的最小最大连击数</p>
+      <h1>Phigros S / V 评级计算器</h1>
+      <p class="subtitle">输入物量与 ACC，得到达成 S / V 评级所需的最小最大连击数</p>
     </header>
 
     <section class="card">
@@ -25,7 +25,7 @@
         </div>
         <div class="field">
           <label for="acc">ACC（%）</label>
-          <input id="acc" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="例如 97.35" autocomplete="off">
+          <input id="acc" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="例如 98.25" autocomplete="off">
         </div>
       </div>
 
@@ -43,8 +43,10 @@
           <thead>
             <tr>
               <th>ACC</th>
-              <th>最小最大连击</th>
-              <th>连击占比</th>
+              <th>S 最小连击</th>
+              <th>S 连击占比</th>
+              <th>V 最小连击</th>
+              <th>V 连击占比</th>
             </tr>
           </thead>
           <tbody id="list-body"></tbody>

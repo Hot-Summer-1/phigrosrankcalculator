@@ -2,9 +2,12 @@
   'use strict';
 
   var NOTE_LIMIT = 10000;
+  var S_SCORE = 920000;        // S 评级分数线
+  var V_SCORE = 960000;        // V 评级分数线
   var S_UNITS_MIN = 9112;      // 单位 0.01%，取得 S 的理论最低 ACC
-  var LIST_UNITS_MIN = 9600;   // 参考表展示下限
-  var TOTAL_SCORE = 920000;
+  var V_UNITS_MIN = 9556;      // 单位 0.01%，取得 V 的理论最低 ACC
+  var LIST_UNITS_MIN = 9600;   // S 参考表展示下限
+  var V_LIST_UNITS_MIN = 9800; // V 参考表展示下限
   var ACC_UNIT_SCORE = 90;     // 每 0.01% ACC 对应的准度分
 
   var notesEl = document.getElementById('notes');
@@ -13,8 +16,8 @@
   var listBody = document.getElementById('list-body');
 
   // accUnits 以 0.01% 为单位
-  function minCombo(notes, accUnits) {
-    var need = TOTAL_SCORE - ACC_UNIT_SCORE * accUnits;
+  function minCombo(notes, accUnits, targetScore) {
+    var need = targetScore - ACC_UNIT_SCORE * accUnits;
     return Math.ceil((need * notes) / 100000);
   }
 
@@ -32,14 +35,14 @@
     return false;
   }
 
-  function buildAccList(n) {
+  function buildAccList(n, minUnits) {
     var arr = [];
     var d;
     if (n >= NOTE_LIMIT) {
-      for (d = LIST_UNITS_MIN; d <= 10000; d++) arr.push(d);
+      for (d = minUnits; d <= 10000; d++) arr.push(d);
       return arr;
     }
-    for (d = LIST_UNITS_MIN; d <= 10000; d++) {
+    for (d = minUnits; d <= 10000; d++) {
       if (isAchievable(n, d)) arr.push(d);
     }
     return arr;
@@ -53,6 +56,25 @@
   function showError(msg) {
     resultEl.className = 'result result--error';
     resultEl.innerHTML = '<p class="error">' + msg + '</p>';
+  }
+
+  function resultBlock(grade, scoreLabel, combo, n) {
+    var pct = (combo / n * 100).toFixed(2);
+    var full = combo >= n;
+    return '<div class="rating-block">' +
+      '<p class="result-label">达到 ' + grade + ' 评级（' + scoreLabel + '）至少需要</p>' +
+      '<p class="result-combo">' + combo +
+        '<span>连击</span></p>' +
+      '<p class="result-sub">约占总物量的 ' + pct + '%' +
+        (full ? '（需要全连）' : '') + '</p>' +
+      '</div>';
+  }
+
+  function unavailableBlock(grade, scoreLabel) {
+    return '<div class="rating-block">' +
+      '<p class="result-label">达到 ' + grade + ' 评级（' + scoreLabel + '）</p>' +
+      '<p class="result-unavailable">当前 ACC 不足，无法取得 ' + grade + ' 评级</p>' +
+      '</div>';
   }
 
   function renderResult() {
@@ -78,17 +100,19 @@
     }
     var units = Math.round(accVal * 100);
     if (units < S_UNITS_MIN) {
-      showError('无法取得 S 评级。');
+      showError('该 ACC 无法取得 S 或 V 评级。');
       return;
     }
-    var combo = minCombo(n, units);
-    var pct = (combo / n * 100).toFixed(2);
-    var full = combo >= n;
+
+    var html = resultBlock('S', '920000', minCombo(n, units, S_SCORE), n);
+    if (units >= V_UNITS_MIN) {
+      html += resultBlock('V', '960000', minCombo(n, units, V_SCORE), n);
+    } else {
+      html += unavailableBlock('V', '960000');
+    }
+
     resultEl.className = 'result result--ok';
-    resultEl.innerHTML =
-      '<p class="result-label">达到 S 评级至少需要</p>' +
-      '<p class="result-combo">' + combo.toLocaleString() + '<span>连击</span></p>' +
-      '<p class="result-sub">约占总物量的 ' + pct + '%' + (full ? '（需要全连）' : '') + '</p>';
+    resultEl.innerHTML = html;
   }
 
   var listTimer = null;
@@ -104,14 +128,22 @@
       listBody.innerHTML = '';
       return;
     }
-    var list = buildAccList(n);
+    var list = buildAccList(n, LIST_UNITS_MIN);
     var rows = '';
     for (var i = 0; i < list.length; i++) {
       var d = list[i];
-      var combo = minCombo(n, d);
-      var pct = (combo / n * 100).toFixed(2);
+      var sCombo = minCombo(n, d, S_SCORE);
+      var sPct = (sCombo / n * 100).toFixed(2);
+      var vCombo = '-';
+      var vPct = '-';
+      if (d >= V_LIST_UNITS_MIN) {
+        var vc = minCombo(n, d, V_SCORE);
+        vCombo = vc;
+        vPct = (vc / n * 100).toFixed(2) + '%';
+      }
       rows += '<tr><td>' + (d / 100).toFixed(2) + '%</td><td>' +
-        combo.toLocaleString() + '</td><td>' + pct + '%</td></tr>';
+        sCombo + '</td><td>' + sPct + '%</td><td>' +
+        vCombo + '</td><td>' + vPct + '</td></tr>';
     }
     listBody.innerHTML = rows;
   }
