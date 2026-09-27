@@ -130,7 +130,7 @@
     }
     var list = buildAccList(n, LIST_UNITS_MIN);
     var rows = '';
-    for (var i = 0; i < list.length; i++) {
+    for (var i = list.length - 1; i >= 0; i--) {
       var d = list[i];
       var sCombo = minCombo(n, d, S_SCORE);
       var sPct = (sCombo / n * 100).toFixed(2);
